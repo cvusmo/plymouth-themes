@@ -31,9 +31,24 @@ cd plymouth-theme
 sudo mv plymouth /usr/share/
 ```
 
-Next, update mkinitcpio.conf
+Set the theme & update initramfs
 ```
+sudo plymouth-set-default-theme -R linux-penguin
 sudo mkinitcpio.conf -P
+```
+
+Edit bootloader config file located at /boot/loader/entries/*.conf (for systemd-boot)
+```
+cd /boot/loader/entries/
+ls
+sudo nvim name-of-config.conf
+```
+
+Add plymouth to options. If using encryption, plymouth goes BEFORE encrypt module. 
+
+```
+options root=UUID<your-root-uuid> rw .. quiet splash plymouth encrypt filesystems fsck)
+sudo mkinitcpio -P
 ```
 
 Now reboot
